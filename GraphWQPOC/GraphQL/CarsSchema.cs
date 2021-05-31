@@ -3,6 +3,7 @@ using GraphWQPOC.GraphQL.Queries;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using GraphWQPOC.GraphQL.Mutations;
+using GraphWQPOC.GraphQL.Subscriptions;
 
 namespace GraphWQPOC.GraphQL
 {
@@ -12,6 +13,7 @@ namespace GraphWQPOC.GraphQL
         {
             Query = provider.GetRequiredService<CarQuery>();
             Mutation = provider.GetRequiredService<CarMutation>();
+            Subscription = provider.GetRequiredService<CarSubscription>();
         }
     }
 }

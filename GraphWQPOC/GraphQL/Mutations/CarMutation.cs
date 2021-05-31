@@ -1,6 +1,7 @@
 ﻿using GraphQL;
 using GraphQL.Types;
 using GraphWQPOC.Data.Entities;
+using GraphWQPOC.GraphQL.Messaging;
 using GraphWQPOC.GraphQL.Types;
 using GraphWQPOC.Repositories;
 
@@ -8,7 +9,7 @@ namespace GraphWQPOC.GraphQL.Mutations
 {
     public class CarMutation : ObjectGraphType
     {
-        public CarMutation(CarRepository repo)
+        public CarMutation(CarRepository repo, CarMessageService messageService)
         {
             FieldAsync<CarType>(
                 "createCar",
@@ -17,7 +18,10 @@ namespace GraphWQPOC.GraphQL.Mutations
                 resolve: async context =>
                 {
                     var car = context.GetArgument<Car>("car");
-                    return await repo.AddCar(car);
+                    await repo.AddCar(car);
+                    messageService.AddCarAddedMessage(car);
+
+                    return car;
                 });
         }
     }
